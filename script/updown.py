@@ -1,9 +1,17 @@
 from xml.etree.ElementTree import parse, Element
-doc = parse(r'../3.xml')
+doc = parse(r'main.xml')
 root = doc.getroot()
 theEmt =root.find('part')
 newEmt =Element('part')
 newEmt.attrib = {"id":"P1"}
+
+#删除连接线等
+for theMea in theEmt:
+    for theNode in theMea:
+        for theDel in theNode.findall('notations'):
+            theNode.remove(theDel)
+        for theDel in theNode.findall('beam'):
+            theNode.remove(theDel)
 
 for index in range(len(theEmt)):
     newMea =Element('measure')
@@ -16,4 +24,4 @@ for index in range(len(theEmt)):
 
 root.remove(theEmt)
 root.append(newEmt)
-doc.write('dao.xml', encoding = "utf-8" ,xml_declaration=True)
+doc.write('updown.xml', encoding = "utf-8" ,xml_declaration=True)
